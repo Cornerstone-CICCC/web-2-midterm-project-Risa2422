@@ -5,12 +5,13 @@ const form = document.querySelector("form");
 const showType = document.querySelector(".showType");
 const genre = document.querySelector(".genre");
 
+/* Event */
 genre.addEventListener("click", (e) => {
-  fetchData();
+  getGenreListByType();
 });
 
 // get genre list
-async function fetchData() {
+async function getGenreListByType() {
   let response;
   genre.innerHTML = "";
 
@@ -64,6 +65,6 @@ async function getGenreList(showType) {
     const data = await response.json();
     return data;
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 }

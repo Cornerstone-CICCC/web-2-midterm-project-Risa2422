@@ -6,5 +6,35 @@
     <title>Document</title>
     <link rel="stylesheet" href="./style/style.css" />
   </head>
-  <body></body>
+  <body class="theme-dark">
+    <header>
+      <div class="logo">
+        <a href="#">
+          <img src="./image/logo_white.png" alt="logo" />
+        </a>
+      </div>
+      <nav>
+        <ul class="menu">
+          <li class="menu-list logo-selected"><a href="#">Home</a></li>
+          <li class="menu-list"><a href="#">About</a></li>
+          <!-- screen mode -->
+          <li class="menu-list screen-mode">
+            <div class="light-wrapper">
+              <img src="./image/sun.png" alt="light-mode" />
+            </div>
+            <div class="screen-type">
+              <input type="radio" name="screen-mode" checked />
+              <input type="radio" name="screen-mode" />
+              <div class="circle"></div>
+            </div>
+            <div class="dark-wrapper">
+              <img src="./image/moon.png" alt="dark-mode" />
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main></main>
+    <footer>&copy2024</footer>
+  </body>
 </html>

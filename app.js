@@ -4,10 +4,15 @@ const genreList = document.querySelector("genre");
 const form = document.querySelector("form");
 const showType = document.querySelector(".showType");
 const genre = document.querySelector(".genre");
+const language = document.querySelector(".language");
 
 /* Event */
 genre.addEventListener("click", (e) => {
   getGenreListByType();
+});
+
+language.addEventListener("click", (e) => {
+  getLanguageAll();
 });
 
 // get genre list
@@ -26,7 +31,19 @@ async function getGenreListByType() {
     response = await getGenreList("tv");
   }
 
-  // set the data as options
+  showOptions(response.genres, genre);
+}
+
+// get language list
+async function getLanguageAll() {
+  language.innerHTML = "";
+  let response = await getLanguageList();
+
+  showOptions(response, language);
+}
+
+// show the option
+function showOptions(response, targetElement) {
   response.genres.forEach((data) => {
     const element = document.createElement("option");
     element.append(data.name);
@@ -66,5 +83,29 @@ async function getGenreList(showType) {
     return data;
   } catch (e) {
     throw e;
+  }
+}
+
+// get language list
+async function getLanguageList() {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDhhMDdiNzMxNjI0NmQxMmYyNDUwZmU1NjU1OWEyNSIsIm5iZiI6MTcyMzEzNTg0NC4wOTYwMjYsInN1YiI6IjY2YjNiNzQyMDFlZjcyMTgzMjg4NmM0ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wc-OqAOtpMotV1UABiNEA2U77iZ3oIIlfykK0ReJJWQ",
+    },
+  };
+
+  try {
+    const response = await fetch(
+      "https://api.themoviedb.org/3/configuration/languages",
+      options
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (e) {
+    console.log(e);
   }
 }

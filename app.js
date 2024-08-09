@@ -174,7 +174,29 @@ async function getAllShowBySearch(inputSearch, selectedLanguage, isAdult) {
 // 検索フォームに記入されている場合→multiAPIを実行
 
 // 検索フォームが記載されていない場合→トレンド取得APIを実行
-// ALL
+// get all trend info
+async function getAllShowTrend(selectedLanguage) {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDhhMDdiNzMxNjI0NmQxMmYyNDUwZmU1NjU1OWEyNSIsIm5iZiI6MTcyMzEzNTg0NC4wOTYwMjYsInN1YiI6IjY2YjNiNzQyMDFlZjcyMTgzMjg4NmM0ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wc-OqAOtpMotV1UABiNEA2U77iZ3oIIlfykK0ReJJWQ",
+    },
+  };
+
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/trending/all/day?${selectedLanguage}`,
+      options
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 // TV
 

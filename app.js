@@ -5,6 +5,16 @@ const form = document.querySelector("form");
 const showType = document.querySelector(".showType");
 const genre = document.querySelector(".genre");
 const language = document.querySelector(".language");
+const search = document.querySelector(".search");
+const age = document.querySelector(".age");
+
+showGenreListByType();
+showLanguageList();
+
+let inputSearch;
+let selectedGenre;
+let selectedLanguage;
+let isAdult = true;
 
 /* Event */
 genre.addEventListener("click", (e) => {
@@ -14,6 +24,34 @@ genre.addEventListener("click", (e) => {
 language.addEventListener("click", (e) => {
   showLanguageList();
 });
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  // もしinputに入力されていたら
+  if (search.value !== null) {
+    if (age.value == "youth") {
+      isAdult = false;
+    }
+    showAllShow();
+  } else {
+  }
+});
+
+// show all show's info
+async function showAllShow() {
+  try {
+    const response = await getAllShowBySearch(
+      search.value,
+      language.value,
+      isAdult
+    );
+    console.log(response);
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 // show genre list
 async function showGenreListByType() {
@@ -108,3 +146,36 @@ async function getLanguageList() {
     console.log(e);
   }
 }
+
+// get show info
+async function getAllShowBySearch(inputSearch, selectedLanguage, isAdult) {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDhhMDdiNzMxNjI0NmQxMmYyNDUwZmU1NjU1OWEyNSIsIm5iZiI6MTcyMzEzNTg0NC4wOTYwMjYsInN1YiI6IjY2YjNiNzQyMDFlZjcyMTgzMjg4NmM0ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wc-OqAOtpMotV1UABiNEA2U77iZ3oIIlfykK0ReJJWQ",
+    },
+  };
+
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/search/multi?query=${inputSearch}&include_adult=${isAdult}&language=${selectedLanguage}&page=1`,
+      options
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+// 検索フォームに記入されている場合→multiAPIを実行
+
+// 検索フォームが記載されていない場合→トレンド取得APIを実行
+// ALL
+
+// TV
+
+// MOVIE

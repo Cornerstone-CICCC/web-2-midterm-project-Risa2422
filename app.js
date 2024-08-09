@@ -41,6 +41,8 @@ form.addEventListener("submit", async function (e) {
   let currentGenreId;
 
   e.preventDefault();
+
+  // search the name of TV and movies
   if (search.value !== "") {
     if (age.value == "youth") {
       isAdult = false;
@@ -54,10 +56,11 @@ form.addEventListener("submit", async function (e) {
     } else {
       resultone = filterShowData(result);
     }
-
+    showsList.innerHTML = "";
     showListOfShow(resultone);
   }
-  // show the trends
+
+  // get the trends
   else {
     if (showType.value === "all") {
       typeOfShow = "all";
@@ -76,6 +79,8 @@ form.addEventListener("submit", async function (e) {
     }
     console.log(resultone);
   }
+
+  form.reset();
 });
 
 // filter the showing data

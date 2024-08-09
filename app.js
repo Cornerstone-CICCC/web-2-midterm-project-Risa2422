@@ -15,6 +15,8 @@ let inputSearch;
 let selectedGenre;
 let selectedLanguage;
 let isAdult = true;
+const AllGenreDatas = [];
+let resultone;
 
 /* Event */
 genre.addEventListener("click", (e) => {
@@ -25,31 +27,46 @@ language.addEventListener("click", (e) => {
   showLanguageList();
 });
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
+form.addEventListener("submit", async function (e) {
+  let typeOfShow;
+  let currentGenreId;
 
-  // もしinputに入力されていたら
-  if (search.value !== null) {
+  e.preventDefault();
+  if (search.value !== "") {
     if (age.value == "youth") {
       isAdult = false;
     }
-    showAllShow();
-  } else {
-  }
-});
 
-// show all show's info
-async function showAllShow() {
-  try {
-    const response = await getAllShowBySearch(
-      search.value,
-      language.value,
-      isAdult
-    );
-    console.log(response);
-    return response;
-  } catch (e) {
-    console.log(e);
+    result = await getAllShowBySearch(search.value, language.value, isAdult);
+
+    if (genre.value === "---") {
+      resultone = result;
+    } else {
+      // 現在のジャンルIDを取得
+      AllGenreDatas.forEach((data) => {
+        if (data.name === genre.value) {
+          currentGenreId = data.id;
+        }
+      });
+
+      resultone = result.results.filter((data) => {
+        if (data.genre_ids && Array.isArray(data.genre_ids)) {
+          return data.genre_ids.some((genreId) => genreId === currentGenreId);
+        } else {
+          return false;
+        }
+      });
+    }
+  } else {
+    if (showType.value === "all") {
+      typeOfShow = "all";
+    } else if (showType.value === "movie") {
+      typeOfShow = "movie";
+    } else {
+      typeOfShow = "tv";
+    }
+    const result2 = await getTrends(typeOfShow, language.value);
+    console.log(result2);
   }
 }
 
@@ -69,22 +86,46 @@ async function showGenreListByType() {
     response = await getGenreList("tv");
   }
 
-  showOptions(response.genres, genre);
+    genre.innerHTML = "";
+    response.genres.forEach((data, index) => {
+      const element = document.createElement("option");
+      if (index === 0) {
+        element.append("---");
+        element.classList.add("no-genre");
+      } else {
+        element.append(data.name);
+      }
+      genre.append(element);
+      AllGenreDatas.push(data);
+    });
+  } catch (e) {
+    console.log(e);
+  }
+    response.genres.forEach((data, index) => {
+      const element = document.createElement("option");
+      if (index === 0) {
+        element.append("---");
+        element.classList.add("no-genre");
+      } else {
+        element.append(data.name);
+      }
+      genre.append(element);
+      AllGenreDatas.push(data);
+    });
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 // show a language list
 async function showLanguageList() {
   let response = await getLanguageList();
 
-  showOptions(response, language);
-}
-
-// show the option
-function showOptions(response, targetElement) {
-  response.genres.forEach((data) => {
+  language.innerHTML = "";
+  response.forEach((data) => {
     const element = document.createElement("option");
-    element.append(data.name);
-    genre.append(element);
+    element.append(data.english_name);
+    language.append(element);
   });
 }
 
@@ -141,6 +182,7 @@ async function getLanguageList() {
     );
 
     const data = await response.json();
+
     return data;
   } catch (e) {
     console.log(e);
@@ -171,11 +213,8 @@ async function getAllShowBySearch(inputSearch, selectedLanguage, isAdult) {
   }
 }
 
-// 検索フォームに記入されている場合→multiAPIを実行
-
-// 検索フォームが記載されていない場合→トレンド取得APIを実行
-// get all trend info
-async function getAllShowTrend(selectedLanguage) {
+// Get the trends
+async function getTrends(typeOfShow, selectedLanguage) {
   const options = {
     method: "GET",
     headers: {
@@ -187,7 +226,7 @@ async function getAllShowTrend(selectedLanguage) {
 
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/trending/all/day?${selectedLanguage}`,
+      `https://api.themoviedb.org/3/trending/${typeOfShow}/day?${selectedLanguage}`,
       options
     );
 
@@ -197,7 +236,3 @@ async function getAllShowTrend(selectedLanguage) {
     console.log(e);
   }
 }
-
-// TV
-
-// MOVIE

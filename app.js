@@ -8,15 +8,15 @@ const language = document.querySelector(".language");
 
 /* Event */
 genre.addEventListener("click", (e) => {
-  getGenreListByType();
+  showGenreListByType();
 });
 
 language.addEventListener("click", (e) => {
-  getLanguageAll();
+  showLanguageList();
 });
 
-// get genre list
-async function getGenreListByType() {
+// show genre list
+async function showGenreListByType() {
   let response;
   genre.innerHTML = "";
 
@@ -34,9 +34,8 @@ async function getGenreListByType() {
   showOptions(response.genres, genre);
 }
 
-// get language list
-async function getLanguageAll() {
-  language.innerHTML = "";
+// show a language list
+async function showLanguageList() {
   let response = await getLanguageList();
 
   showOptions(response, language);
@@ -86,7 +85,7 @@ async function getGenreList(showType) {
   }
 }
 
-// get language list
+// get a language list
 async function getLanguageList() {
   const options = {
     method: "GET",

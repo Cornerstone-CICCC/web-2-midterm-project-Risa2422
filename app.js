@@ -37,7 +37,8 @@ form.addEventListener("submit", async function (e) {
       isAdult = false;
     }
 
-    result = await getAllShowBySearch(search.value, language.value, isAdult);
+    let selectedLanguage = language.value.substring(0, 2).toLowerCase();
+    result = await getAllShowBySearch(search.value, selectedLanguage, isAdult);
 
     if (genre.value === "---") {
       resultone = result;

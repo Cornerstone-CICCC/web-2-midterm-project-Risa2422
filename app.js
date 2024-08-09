@@ -51,22 +51,11 @@ form.addEventListener("submit", async function (e) {
     if (genre.value === "---") {
       resultone = result;
     } else {
-      // 現在のジャンルIDを取得
-      AllGenreDatas.forEach((data) => {
-        if (data.name === genre.value) {
-          currentGenreId = data.id;
-        }
-      });
-
-      resultone = result.results.filter((data) => {
-        if (data.genre_ids && Array.isArray(data.genre_ids)) {
-          return data.genre_ids.some((genreId) => genreId === currentGenreId);
-        } else {
-          return false;
-        }
-      });
+      resultone = filterShowData(result);
     }
-  } else {
+  }
+  // show the trends
+  else {
     if (showType.value === "all") {
       typeOfShow = "all";
     } else if (showType.value === "movie") {
@@ -74,9 +63,34 @@ form.addEventListener("submit", async function (e) {
     } else {
       typeOfShow = "tv";
     }
+
     const result2 = await getTrends(typeOfShow, language.value);
-    console.log(result2);
+
+    if (genre.value === "---") {
+      resultone = result2;
+    } else {
+      resultone = filterShowData(result2);
+    }
+    console.log(resultone);
   }
+});
+
+// filter the showing data
+function filterShowData(responsData) {
+  // get a selected genre
+  AllGenreDatas.forEach((data) => {
+    if (data.name === genre.value) {
+      currentGenreId = data.id;
+    }
+  });
+
+  return responsData.results.filter((data) => {
+    if (data.genre_ids && Array.isArray(data.genre_ids)) {
+      return data.genre_ids.some((genreId) => genreId === currentGenreId);
+    } else {
+      return false;
+    }
+  });
 }
 
 // show genre list

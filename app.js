@@ -152,7 +152,7 @@ async function showGenreListByType() {
 async function showLanguageList() {
   let response = await getLanguageList();
 
-  language.innerHTML = "";
+  language.innerHTML = "<option>---</option>";
   response.forEach((data) => {
     const element = document.createElement("option");
     element.append(data.english_name);

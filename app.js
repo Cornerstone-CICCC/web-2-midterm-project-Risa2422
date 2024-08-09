@@ -14,6 +14,9 @@ let selectedGenre;
 let selectedLanguage;
 let isAdult = true;
 let resultone;
+let selectedGenreId;
+let isGenreSelected;
+let genreName;
 const AllGenreDatas = [];
 const commonOptions = {
   method: "GET",
@@ -24,10 +27,7 @@ const commonOptions = {
   },
 };
 
-showGenreListByType();
-showLanguageList();
-
-/* Event */
+/* Event *****************************************/
 genre.addEventListener("click", (e) => {
   showGenreListByType();
 });
@@ -37,9 +37,6 @@ language.addEventListener("click", (e) => {
 });
 
 form.addEventListener("submit", async function (e) {
-  let typeOfShow;
-  let currentGenreId;
-
   e.preventDefault();
 
   // search the name of TV and movies
@@ -49,98 +46,106 @@ form.addEventListener("submit", async function (e) {
     }
 
     let selectedLanguage = language.value.substring(0, 2).toLowerCase();
-    result = await getAllShowBySearch(search.value, selectedLanguage, isAdult);
+    const result = await getAllShowBySearch(
+      search.value,
+      selectedLanguage,
+      isAdult
+    );
 
-    if (genre.value === "---") {
-      resultone = result;
-    } else {
+    if (isGenreSelected) {
       resultone = filterShowData(result);
+    } else {
+      resultone = result.results;
     }
+
     showsList.innerHTML = "";
     showListOfShow(resultone);
   }
-
   // get the trends
   else {
-    if (showType.value === "all") {
-      typeOfShow = "all";
-    } else if (showType.value === "movie") {
-      typeOfShow = "movie";
-    } else {
-      typeOfShow = "tv";
-    }
-
-    const result2 = await getTrends(typeOfShow, language.value);
-
+    genreName = genre.value;
     if (genre.value === "---") {
-      resultone = result2;
+      isGenreSelected = false;
     } else {
-      resultone = filterShowData(result2);
+      isGenreSelected = true;
     }
-    console.log(resultone);
+
+    main();
   }
 
   form.reset();
 });
 
-// filter the showing data
+/* Functions *****************************************/
+function load() {
+  showGenreListByType();
+  showLanguageList();
+  main();
+}
+
+async function main() {
+  let typeOfShow;
+  if (showType.value === "all") {
+    typeOfShow = "all";
+  } else if (showType.value === "movies") {
+    typeOfShow = "movie";
+  } else {
+    typeOfShow = "tv";
+  }
+
+  const result = await getTrends(typeOfShow, language.value);
+
+  if (isGenreSelected) {
+    resultone = filterShowData(result);
+  } else {
+    resultone = result.results;
+  }
+
+  showsList.innerHTML = "";
+  showListOfShow(resultone);
+}
+
+// filter the showing datas
 function filterShowData(responsData) {
-  // get a selected genre
+  // get a selected genreId
   AllGenreDatas.forEach((data) => {
-    if (data.name === genre.value) {
-      currentGenreId = data.id;
+    if (data.name === genreName) {
+      selectedGenreId = data.id;
     }
   });
 
   return responsData.results.filter((data) => {
     if (data.genre_ids && Array.isArray(data.genre_ids)) {
-      return data.genre_ids.some((genreId) => genreId === currentGenreId);
+      return data.genre_ids.some((genreId) => genreId === selectedGenreId);
     } else {
       return false;
     }
   });
 }
 
-// show genre list
+// show a genre list
 async function showGenreListByType() {
   let response;
-  genre.innerHTML = "";
 
-  if (showType.value === "all") {
-    // just for now
-    response = await getGenreList();
-  } else if (showType.value === "movies") {
-    // get a movie list
-    response = await getGenreList("movie");
-  } else {
-    // get a TV list
-    response = await getGenreList("tv");
-  }
+  try {
+    if (showType.value === "all") {
+      // just for now
+      response = await getGenreList("movie");
+    } else if (showType.value === "movie") {
+      // get a movie list
+      response = await getGenreList("movie");
+    } else {
+      // get a TV list
+      response = await getGenreList("tv");
+    }
 
-    genre.innerHTML = "";
-    response.genres.forEach((data, index) => {
+    genre.innerHTML = "<option>---</option>";
+    response.genres.forEach((data) => {
       const element = document.createElement("option");
-      if (index === 0) {
-        element.append("---");
-        element.classList.add("no-genre");
-      } else {
-        element.append(data.name);
-      }
+      element.append(data.name);
       genre.append(element);
-      AllGenreDatas.push(data);
-    });
-  } catch (e) {
-    console.log(e);
-  }
-    response.genres.forEach((data, index) => {
-      const element = document.createElement("option");
-      if (index === 0) {
-        element.append("---");
-        element.classList.add("no-genre");
-      } else {
-        element.append(data.name);
-      }
-      genre.append(element);
+
+      // store the datas of genre
       AllGenreDatas.push(data);
     });
   } catch (e) {
@@ -160,6 +165,42 @@ async function showLanguageList() {
   });
 }
 
+// toggle between light mode and dark mode
+screenModeButton.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (button.classList.contains("dark-mode")) {
+      body.classList.add("theme-dark");
+    } else {
+      body.classList.remove("theme-dark");
+    }
+  });
+});
+
+// show the lists of shows
+function showListOfShow(showDatas) {
+  showDatas.forEach((data) => {
+    if ((data.original_name || data.original_title) && data.poster_path) {
+      const div = document.createElement("div");
+      div.classList.add("show-list");
+      div.innerHTML = `<div class="imgframe">
+    <img src="https://image.tmdb.org/t/p/w500/${data.poster_path}" alt="${data.original_name}">
+  </div>
+  <div class="card_textbox">
+    <div class="card_titletext">
+      ${data.original_name}
+    </div>
+    <div class="card_overviewtext">
+      ${data.overview}
+    </div>
+    <p>${data.release_date}</p>
+  </div>`;
+
+      showsList.append(div);
+    }
+  });
+}
+
+/* API *****************************************/
 // get a genre list
 async function getGenreList(showType) {
   try {
@@ -184,14 +225,13 @@ async function getLanguageList() {
     );
 
     const data = await response.json();
-
     return data;
   } catch (e) {
     console.log(e);
   }
 }
 
-// get show info
+// get the show info
 async function getAllShowBySearch(inputSearch, selectedLanguage, isAdult) {
   try {
     const response = await fetch(
@@ -221,35 +261,4 @@ async function getTrends(typeOfShow, selectedLanguage) {
   }
 }
 
-// toggle between light mode and dark mode
-screenModeButton.forEach((button) => {
-  button.addEventListener("click", () => {
-    if (button.classList.contains("dark-mode")) {
-      body.classList.add("theme-dark");
-    } else {
-      body.classList.remove("theme-dark");
-    }
-  });
-});
-
-// show the lists of shows
-function showListOfShow(showDatas) {
-  showDatas.results.forEach((result) => {
-    const div = document.createElement("div");
-    div.classList.add("show-list");
-    div.innerHTML = `<div class="imgframe">
-    <img src="https://image.tmdb.org/t/p/w500/${result.poster_path}" alt="${result.original_title}">
-  </div>
-  <div class="card_textbox">
-    <div class="card_titletext">
-      ${result.original_title}
-    </div>
-    <div class="card_overviewtext">
-      ${result.overview}
-    </div>
-    <p>${result.release_date}</p>
-  </div>`;
-
-    showsList.append(div);
-  });
-}
+load();

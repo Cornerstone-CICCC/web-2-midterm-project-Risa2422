@@ -8,15 +8,23 @@ const language = document.querySelector(".language");
 const search = document.querySelector(".search");
 const age = document.querySelector(".age");
 
-showGenreListByType();
-showLanguageList();
-
 let inputSearch;
 let selectedGenre;
 let selectedLanguage;
 let isAdult = true;
-const AllGenreDatas = [];
 let resultone;
+const AllGenreDatas = [];
+const commonOptions = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDhhMDdiNzMxNjI0NmQxMmYyNDUwZmU1NjU1OWEyNSIsIm5iZiI6MTcyMzEzNTg0NC4wOTYwMjYsInN1YiI6IjY2YjNiNzQyMDFlZjcyMTgzMjg4NmM0ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wc-OqAOtpMotV1UABiNEA2U77iZ3oIIlfykK0ReJJWQ",
+  },
+};
+
+showGenreListByType();
+showLanguageList();
 
 /* Event */
 genre.addEventListener("click", (e) => {
@@ -130,32 +138,12 @@ async function showLanguageList() {
   });
 }
 
-// Toggle between light mode and dark mode
-screenModeButton.forEach((button) => {
-  button.addEventListener("click", () => {
-    if (button.classList.contains("dark-mode")) {
-      body.classList.add("theme-dark");
-    } else {
-      body.classList.remove("theme-dark");
-    }
-  });
-});
-
 // get a genre list
 async function getGenreList(showType) {
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDhhMDdiNzMxNjI0NmQxMmYyNDUwZmU1NjU1OWEyNSIsIm5iZiI6MTcyMzEzNTg0NC4wOTYwMjYsInN1YiI6IjY2YjNiNzQyMDFlZjcyMTgzMjg4NmM0ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wc-OqAOtpMotV1UABiNEA2U77iZ3oIIlfykK0ReJJWQ",
-    },
-  };
-
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/genre/${showType}/list?language=en`,
-      options
+      commonOptions
     );
 
     const data = await response.json();
@@ -167,19 +155,10 @@ async function getGenreList(showType) {
 
 // get a language list
 async function getLanguageList() {
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDhhMDdiNzMxNjI0NmQxMmYyNDUwZmU1NjU1OWEyNSIsIm5iZiI6MTcyMzEzNTg0NC4wOTYwMjYsInN1YiI6IjY2YjNiNzQyMDFlZjcyMTgzMjg4NmM0ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wc-OqAOtpMotV1UABiNEA2U77iZ3oIIlfykK0ReJJWQ",
-    },
-  };
-
   try {
     const response = await fetch(
       "https://api.themoviedb.org/3/configuration/languages",
-      options
+      commonOptions
     );
 
     const data = await response.json();
@@ -192,19 +171,10 @@ async function getLanguageList() {
 
 // get show info
 async function getAllShowBySearch(inputSearch, selectedLanguage, isAdult) {
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDhhMDdiNzMxNjI0NmQxMmYyNDUwZmU1NjU1OWEyNSIsIm5iZiI6MTcyMzEzNTg0NC4wOTYwMjYsInN1YiI6IjY2YjNiNzQyMDFlZjcyMTgzMjg4NmM0ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wc-OqAOtpMotV1UABiNEA2U77iZ3oIIlfykK0ReJJWQ",
-    },
-  };
-
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/search/multi?query=${inputSearch}&include_adult=${isAdult}&language=${selectedLanguage}&page=1`,
-      options
+      commonOptions
     );
 
     const data = await response.json();
@@ -214,21 +184,12 @@ async function getAllShowBySearch(inputSearch, selectedLanguage, isAdult) {
   }
 }
 
-// Get the trends
+// get the trends
 async function getTrends(typeOfShow, selectedLanguage) {
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDhhMDdiNzMxNjI0NmQxMmYyNDUwZmU1NjU1OWEyNSIsIm5iZiI6MTcyMzEzNTg0NC4wOTYwMjYsInN1YiI6IjY2YjNiNzQyMDFlZjcyMTgzMjg4NmM0ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wc-OqAOtpMotV1UABiNEA2U77iZ3oIIlfykK0ReJJWQ",
-    },
-  };
-
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/trending/${typeOfShow}/day?${selectedLanguage}`,
-      options
+      commonOptions
     );
 
     const data = await response.json();

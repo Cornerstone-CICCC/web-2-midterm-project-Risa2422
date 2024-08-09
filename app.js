@@ -7,6 +7,7 @@ const genre = document.querySelector(".genre");
 const language = document.querySelector(".language");
 const search = document.querySelector(".search");
 const age = document.querySelector(".age");
+const showsList = document.querySelector(".shows-list");
 
 let inputSearch;
 let selectedGenre;
@@ -53,6 +54,8 @@ form.addEventListener("submit", async function (e) {
     } else {
       resultone = filterShowData(result);
     }
+
+    showListOfShow(resultone);
   }
   // show the trends
   else {
@@ -211,4 +214,37 @@ async function getTrends(typeOfShow, selectedLanguage) {
   } catch (e) {
     console.log(e);
   }
+}
+
+// toggle between light mode and dark mode
+screenModeButton.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (button.classList.contains("dark-mode")) {
+      body.classList.add("theme-dark");
+    } else {
+      body.classList.remove("theme-dark");
+    }
+  });
+});
+
+// show the lists of shows
+function showListOfShow(showDatas) {
+  showDatas.results.forEach((result) => {
+    const div = document.createElement("div");
+    div.classList.add("show-list");
+    div.innerHTML = `<div class="imgframe">
+    <img src="https://image.tmdb.org/t/p/w500/${result.poster_path}" alt="${result.original_title}">
+  </div>
+  <div class="card_textbox">
+    <div class="card_titletext">
+      ${result.original_title}
+    </div>
+    <div class="card_overviewtext">
+      ${result.overview}
+    </div>
+    <p>${result.release_date}</p>
+  </div>`;
+
+    showsList.append(div);
+  });
 }

@@ -11,7 +11,6 @@ const showsList = document.querySelector(".shows-list");
 let inputSearch;
 let selectedGenre;
 let selectedLanguage;
-let isAdult = true;
 let displayData;
 let selectedGenreId;
 let isGenreSelected;
@@ -50,18 +49,10 @@ form.addEventListener("submit", async function (e) {
 
   // search the name of TV and movies
   if (search.value !== "") {
-    if (age.value == "youth") {
-      isAdult = false;
-    }
-
     let selectedLanguage = language.value.substring(0, 2).toLowerCase();
 
     // get data based on the search input
-    const result = await getAllShowBySearch(
-      search.value,
-      selectedLanguage,
-      isAdult
-    );
+    const result = await getAllShowBySearch(search.value, selectedLanguage);
 
     if (isGenreSelected) {
       displayData = filterShowData(result);
@@ -300,10 +291,10 @@ async function getLanguageList() {
 }
 
 // get the show info
-async function getAllShowBySearch(inputSearch, selectedLanguage, isAdult) {
+async function getAllShowBySearch(inputSearch, selectedLanguage) {
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/search/multi?query=${inputSearch}&include_adult=${isAdult}&language=${selectedLanguage}&page=1`,
+      `https://api.themoviedb.org/3/search/multi?query=${inputSearch}&include_adult=false&language=${selectedLanguage}&page=1`,
       commonOptions
     );
 

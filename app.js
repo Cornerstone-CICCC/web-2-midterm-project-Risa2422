@@ -149,7 +149,7 @@ async function showGenreListByType() {
       AllGenreDatas.push(data);
     });
   } catch (e) {
-    console.log(e);
+    alert(e);
   }
 }
 
@@ -212,7 +212,7 @@ async function getGenreList(showType) {
     const data = await response.json();
     return data;
   } catch (e) {
-    throw e;
+    alert(e);
   }
 }
 
@@ -227,7 +227,7 @@ async function getLanguageList() {
     const data = await response.json();
     return data;
   } catch (e) {
-    console.log(e);
+    alert(e);
   }
 }
 
@@ -242,7 +242,7 @@ async function getAllShowBySearch(inputSearch, selectedLanguage, isAdult) {
     const data = await response.json();
     return data;
   } catch (e) {
-    console.log(e);
+    alert(e);
   }
 }
 
@@ -257,7 +257,7 @@ async function getTrends(typeOfShow, selectedLanguage) {
     const data = await response.json();
     return data;
   } catch (e) {
-    console.log(e);
+    alert(e);
   }
 }
 

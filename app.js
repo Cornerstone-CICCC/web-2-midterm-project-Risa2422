@@ -139,15 +139,7 @@ async function showGenreListByType() {
       response = await getGenreList("tv");
     }
 
-    genre.innerHTML = "<option>---</option>";
-    response.genres.forEach((data) => {
-      const element = document.createElement("option");
-      element.append(data.name);
-      genre.append(element);
-
-      // store the datas of genre
-      AllGenreDatas.push(data);
-    });
+    setOptions(genre, response.genres, "name");
   } catch (e) {
     alert(e);
   }
@@ -157,12 +149,7 @@ async function showGenreListByType() {
 async function showLanguageList() {
   let response = await getLanguageList();
 
-  language.innerHTML = "<option>---</option>";
-  response.forEach((data) => {
-    const element = document.createElement("option");
-    element.append(data.english_name);
-    language.append(element);
-  });
+  setOptions(language, response, "english_name");
 }
 
 // toggle between light mode and dark mode
@@ -176,8 +163,24 @@ screenModeButton.forEach((button) => {
   });
 });
 
-// show the lists of shows
-function showListOfShow(showDatas) {
+// build HTML for setting options
+function setOptions(genres, responses, name) {
+  genres.innerHTML = "<option>---</option>";
+  responses.forEach((data) => {
+    const element = document.createElement("option");
+    element.append(data[name]);
+    genres.append(element);
+
+    AllGenreDatas.push(data);
+  });
+}
+
+// diplay search result
+function displayListOfShow(showDatas, isSearchTrends) {
+  let showId = 1;
+  const showArr = [];
+  let fetchTitle;
+
   showDatas.forEach((data) => {
     if ((data.original_name || data.original_title) && data.poster_path) {
       const div = document.createElement("div");

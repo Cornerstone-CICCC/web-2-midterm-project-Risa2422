@@ -185,24 +185,86 @@ function displayListOfShow(showDatas, isSearchTrends) {
   let fetchTitle;
 
   showDatas.forEach((data) => {
-    if ((data.original_name || data.original_title) && data.poster_path) {
-      const div = document.createElement("div");
-      div.classList.add("show-list");
-      div.innerHTML = `<div class="imgframe">
-    <img src="https://image.tmdb.org/t/p/w500/${data.poster_path}" alt="${data.original_name}">
-  </div>
-  <div class="card_textbox">
-    <div class="card_titletext">
-      ${data.original_name}
-    </div>
-    <div class="card_overviewtext">
-      ${data.overview}
-    </div>
-    <p>${data.release_date}</p>
-  </div>`;
+    // ※avoid showing data that does not have a title or overview
+    if ((data.name || data.title) && data.poster_path && data.overview) {
+      if (isSearchTrends) {
+        fetchTitle = isSearchTrends ? data.title : data.name;
+      } else {
+        fetchTitle = isSearchTrends ? data.name : data.title;
+      }
 
-      showsList.append(div);
+      const showData = document.createElement("div");
+      showData.classList.add("show-list");
+      showData.innerHTML = `
+        <div class="imgframe">
+          <img src="https://image.tmdb.org/t/p/w500/${data.poster_path}" alt="${fetchTitle}">
+        </div>
+        <div class="card_textbox">
+          <div class="card_titletext">
+            ${fetchTitle}
+          </div>
+          <div class="card_overviewtext">
+            ${data.overview}
+          </div>
+          <p>${data.release_date}</p>
+          <button id="button-${showId}">More info</button>
+        </div>`;
+      showsList.append(showData);
+
+      // store the data related to the current modal when it is displayed
+      const showObj = {
+        id: showId,
+        name: data.original_name,
+        overview: data.overview,
+        release_date: data.release_date,
+        img: `https://image.tmdb.org/t/p/w500/${data.poster_path}`,
+      };
+      showArr.push(showObj);
+      showId++;
     }
+  });
+
+  // show a modal
+  document.querySelectorAll(".show-list button").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const buttonId = e.target.id.replace("button-", "");
+
+      const selectedData = showArr.find(
+        (data) => data.id.toString() === buttonId
+      );
+
+      if (selectedData) {
+        const overlay = document.createElement("div");
+        overlay.classList.add("overlay");
+        body.append(overlay);
+
+        const modal = document.createElement("div");
+        modal.classList.add("modal");
+        modal.innerHTML = `
+        <div class="modal-imgframe">
+            <img src="${selectedData.img}" alt="${selectedData.name}">
+        </div>
+        <div class="modal-card_textbox">
+            <div class="modal-card-text">
+            ${selectedData.name}
+            </div>
+            <div class="modal-overviewtext">
+            ${selectedData.overview}
+            </div>
+            <button id="close-modal">Close</button>
+        </div>
+        `;
+
+        overlay.append(modal);
+        body.style.overflow = "hidden";
+
+        // close a modal
+        document.querySelector("#close-modal").addEventListener("click", () => {
+          overlay.remove();
+          body.style.overflow = "";
+        });
+      }
+    });
   });
 }
 

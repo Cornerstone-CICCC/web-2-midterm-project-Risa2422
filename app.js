@@ -61,7 +61,7 @@ form.addEventListener("submit", async function (e) {
     }
 
     showsList.innerHTML = "";
-    displayListOfShow(displayData, false);
+    displayListOfShow(displayData, false, false);
   } else {
     // get the trends
     getTrendDatas();
@@ -79,11 +79,13 @@ function load() {
 
 async function getTrendDatas() {
   let typeOfShow;
+  let isTV = false;
 
   if (showType.value === "all") {
     typeOfShow = "all";
   } else if (showType.value === "movies") {
     typeOfShow = "movie";
+    isTV = true;
   } else {
     typeOfShow = "tv";
   }
@@ -170,7 +172,7 @@ function setOptions(genres, responses, name) {
 }
 
 // diplay search result
-function displayListOfShow(showDatas, isSearchTrends) {
+function displayListOfShow(showDatas, isSearchTrends, isTV) {
   let showId = 1;
   const showArr = [];
   let fetchTitle;
@@ -178,10 +180,16 @@ function displayListOfShow(showDatas, isSearchTrends) {
   showDatas.forEach((data) => {
     // ※avoid showing data that does not have a title or overview
     if ((data.name || data.title) && data.poster_path && data.overview) {
-      if (isSearchTrends) {
-        fetchTitle = isSearchTrends ? data.title : data.name;
+      if (isSearchTrends || isTV) {
+        fetchTitle = data.title;
+        if (!fetchTitle) {
+          fetchTitle = data.name;
+        }
       } else {
-        fetchTitle = isSearchTrends ? data.name : data.title;
+        fetchTitle = data.name;
+        if (!fetchTitle) {
+          fetchTitle = data.title;
+        }
       }
 
       const showData = document.createElement("div");

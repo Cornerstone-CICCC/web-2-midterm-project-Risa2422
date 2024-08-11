@@ -5,7 +5,7 @@ const form = document.querySelector("form");
 const showType = document.querySelector(".showType");
 const genre = document.querySelector(".genre");
 const language = document.querySelector(".language");
-const search = document.querySelector(".search");
+const search = document.querySelectorAll(".search");
 const age = document.querySelector(".age");
 const showsList = document.querySelector(".shows-list");
 let inputSearch;
@@ -29,16 +29,18 @@ const commonOptions = {
 
 /* Event *****************************************/
 // avoid selecting a language when searching for titles.
-search.addEventListener("input", (event) => {
-  const inputValue = event.target.value;
+search.forEach((element) => {
+  element.addEventListener("input", (event) => {
+    const inputValue = event.target.value;
 
-  if (inputValue !== "") {
-    language.style.backgroundColor = "#D6D4D1";
-    language.disabled = true;
-  } else {
-    language.style.backgroundColor = "white";
-    language.disabled = false;
-  }
+    if (inputValue !== "") {
+      language.style.backgroundColor = "#EBEBEB";
+      language.disabled = true;
+    } else {
+      language.style.backgroundColor = "white";
+      language.disabled = false;
+    }
+  });
 });
 
 genre.addEventListener("click", (e) => {
@@ -81,6 +83,8 @@ form.addEventListener("submit", async function (e) {
   }
 
   form.reset();
+  language.style.backgroundColor = "white";
+  language.disabled = false;
 });
 
 /* Functions *****************************************/

@@ -132,6 +132,9 @@
 main {
   .wrapper {
     padding: 30px 50px;
+    @media screen and (max-width: variable.$screen-size-575) {
+      padding: 30px 20px;
+    }
 
     h1 {
       margin: 0;
@@ -154,57 +157,112 @@ main {
       background-color: variable.$color-blackPearl;
     }
 
-
     background-color: variable.$color-wildSand;
 
     form {
       display: flex;
+      flex-direction: column;
       justify-content: center;
-      padding: 0px 80px 50px 180px;
+      margin: 0px 90px 50px;
       font-family: variable.$font-roboto;
       font-size: 0.8rem;
 
-      .input-wrapper {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: end;
-        color: variable.$color-blackPearl;
+      @media screen and (max-width: 881px) {
+        margin: 0px 30px 50px;
+      }
 
-        select {
-          border: none;
+      .input-mobile {
+        label {
+          display: none;
+          @media screen and (max-width: 881px) {
+            display: flex;
+            padding-left: 5px;
+          }
+        }
+
+        .search-moobile {
+          margin: 0 0 10px;
+          padding-left: 10px;
+          display: none;
           border: 1px solid variable.$color-doveGray;
-          border-left: none;
-          height: 45px;
-          padding: 10px;
-          font-size: 1rem;
-          color: variable.$color-blackPearl;
+          border-radius: 20px;
+          height: 30px;
+          width: 100%;
+          height: 40px;
+
+          @media screen and (max-width: 881px) {
+            display: block;
+          }
         }
       }
 
-      .search {
-        flex: 2;
-        border: none;
-        height: 45px;
-        margin-top: 24px;
-        padding: 10px;
-        border-top-left-radius: 20px;
-        border-bottom-left-radius: 20px;
-        border: 1px solid variable.$color-doveGray;
-        font-size: 1rem;
-        color: variable.$color-blackPearl;
-      }
+      .form-wrapper {
+        display: flex;
 
-      .search-button {
-        width: 45px;
-        border: none;
-        height: 45px;
-        border-top-right-radius: 20px;
-        border-bottom-right-radius: 20px;
-        border: 1px solid variable.$color-doveGray;
-        border-left: none;
-        background-color: variable.$color-anzac;
-        font-size: 1.1rem;
+        .select-wrapper {
+          flex: 1 1 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: end;
+          color: variable.$color-blackPearl;
+
+          label {
+            padding-left: 5px;
+          }
+
+          select {
+            border: none;
+            border: 1px solid variable.$color-doveGray;
+            border-left: none;
+            height: 40px;
+            padding: 10px;
+            font-size: 1rem;
+            color: variable.$color-blackPearl;
+            width: 100%;
+
+            @media screen and (max-width: variable.$screen-size-881) {
+              &.showType {
+                border-top-left-radius: 20px;
+                border-bottom-left-radius: 20px;
+                border: 1px solid variable.$color-doveGray;
+              }
+            }
+          }
+        }
+
+        .search-wrapper {
+          label {
+            padding-left: 10px;
+          }
+          .search {
+            flex: 1 1 100%;
+            border: none;
+            height: 40px;
+            padding: 10px;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border: 1px solid variable.$color-doveGray;
+            font-size: 1rem;
+            color: variable.$color-blackPearl;
+          }
+
+          @media screen and (max-width: variable.$screen-size-881) {
+            display: none;
+          }
+        }
+
+        .search-button {
+          max-width: 100%;
+          width: auto;
+          border: none;
+          height: 40px;
+          border-top-right-radius: 20px;
+          border-bottom-right-radius: 20px;
+          border: 1px solid variable.$color-doveGray;
+          border-left: none;
+          background-color: variable.$color-anzac;
+          font-size: 1.1rem;
+        }
       }
     }
 
@@ -212,6 +270,18 @@ main {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 20px;
+
+      @media screen and (max-width: variable.$screen-size-1014) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      @media screen and (max-width: variable.$screen-size-820) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media screen and (max-width: variable.$screen-size-400) {
+        grid-template-columns: repeat(1, 1fr);
+      }
 
       .show-list {
         border-radius: 15px;
@@ -300,7 +370,7 @@ main {
     margin: auto;
     max-width: 300px;
     width: 100%;
-    max-height: 450px;
+    max-height: 400px;
     height: 100%;
     background-color: variable.$color-wildSand;
     box-shadow: 0px 0px 10px 0px rgba(175, 171, 171, 0.3);

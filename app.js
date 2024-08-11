@@ -28,6 +28,19 @@ const commonOptions = {
 };
 
 /* Event *****************************************/
+// avoid selecting a language when searching for titles.
+search.addEventListener("input", (event) => {
+  const inputValue = event.target.value;
+
+  if (inputValue !== "") {
+    language.style.backgroundColor = "#D6D4D1";
+    language.disabled = true;
+  } else {
+    language.style.backgroundColor = "white";
+    language.disabled = false;
+  }
+});
+
 genre.addEventListener("click", (e) => {
   showGenreList();
 });

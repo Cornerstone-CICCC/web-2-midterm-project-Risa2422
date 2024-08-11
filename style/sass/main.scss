@@ -109,38 +109,64 @@ main {
       margin-top: 3px;
       text-align: center;
       font-size: 0.9rem;
+      font-family: variable.$font-roboto;
     }
 
     .theme-dark & {
       background-color: variable.$color-blackPearl;
     }
 
+
     background-color: variable.$color-wildSand;
+
     form {
       display: flex;
       justify-content: center;
-
-      padding: 10px 10px 20px;
-      border-radius: 30px;
+      padding: 0px 80px 50px 180px;
+      font-family: variable.$font-roboto;
+      font-size: 0.8rem;
 
       .input-wrapper {
+        flex: 1;
         display: flex;
         flex-direction: column;
         justify-content: end;
+        color: variable.$color-blackPearl;
 
         select {
-          // border: none;
+          border: none;
+          border: 1px solid variable.$color-doveGray;
+          border-left: none;
+          height: 45px;
+          padding: 10px;
+          font-size: 1rem;
+          color: variable.$color-blackPearl;
         }
       }
 
       .search {
-        height: 23px;
+        flex: 2;
+        border: none;
+        height: 45px;
         margin-top: 24px;
+        padding: 10px;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        border: 1px solid variable.$color-doveGray;
+        font-size: 1rem;
+        color: variable.$color-blackPearl;
       }
 
       .search-button {
+        width: 45px;
         border: none;
-        height: 22px;
+        height: 45px;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+        border: 1px solid variable.$color-doveGray;
+        border-left: none;
+        background-color: variable.$color-anzac;
+        font-size: 1.1rem;
       }
     }
 

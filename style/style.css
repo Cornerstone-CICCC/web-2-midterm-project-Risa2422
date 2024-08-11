@@ -94,6 +94,7 @@ main .wrapper p {
   margin-top: 3px;
   text-align: center;
   font-size: 0.9rem;
+  font-family: "Roboto", sans-serif;
 }
 .theme-dark main .wrapper {
   background-color: #072236;
@@ -101,21 +102,48 @@ main .wrapper p {
 main .wrapper form {
   display: flex;
   justify-content: center;
-  padding: 10px 10px 20px;
-  border-radius: 30px;
+  padding: 0px 80px 50px 180px;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.8rem;
 }
 main .wrapper form .input-wrapper {
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: end;
+  color: #072236;
+}
+main .wrapper form .input-wrapper select {
+  border: none;
+  border: 1px solid #d4cfcf;
+  border-left: none;
+  height: 45px;
+  padding: 10px;
+  font-size: 1rem;
+  color: #072236;
 }
 main .wrapper form .search {
-  height: 23px;
+  flex: 2;
+  border: none;
+  height: 45px;
   margin-top: 24px;
+  padding: 10px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border: 1px solid #d4cfcf;
+  font-size: 1rem;
+  color: #072236;
 }
 main .wrapper form .search-button {
+  width: 45px;
   border: none;
-  height: 22px;
+  height: 45px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border: 1px solid #d4cfcf;
+  border-left: none;
+  background-color: #e5ae4e;
+  font-size: 1.1rem;
 }
 main .wrapper .shows-list {
   display: grid;

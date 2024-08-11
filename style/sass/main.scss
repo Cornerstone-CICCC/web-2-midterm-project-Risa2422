@@ -94,9 +94,26 @@ header {
 }
 
 main {
-  .theme-dark & {
-    background-color: variable.$color-blackPearl;
-  }
+  .wrapper {
+    padding: 30px 50px;
+
+    h1 {
+      margin: 0;
+      text-align: center;
+      font-size: 2.5rem;
+      font-family: variable.$font-anton;
+      color: variable.$color-blackPearl;
+    }
+
+    p {
+      margin-top: 3px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .theme-dark & {
+      background-color: variable.$color-blackPearl;
+    }
 
   background-color: variable.$color-wildSand;
   form {

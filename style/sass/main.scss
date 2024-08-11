@@ -12,9 +12,11 @@
   display: flex;
   justify-content: space-around;
   background-color: variable.$color-piper;
+  border-bottom: 1.1px solid variable.$color-blackPearl;
 
   .theme-dark & {
     background-color: variable.$color-blackPearl;
+    border-bottom: 1.1px solid variable.$color-hotToddy;
   }
 
   .navbar-brand {
@@ -51,6 +53,10 @@
         padding-bottom: 5px;
         position: relative;
         text-decoration: none;
+
+        .theme-dark & {
+          color: variable.$color-hotToddy;
+        }
 
         &::before {
           content: "";
@@ -143,6 +149,10 @@ main {
       font-family: variable.$font-anton;
       color: variable.$color-blackPearl;
       letter-spacing: 1.2px;
+
+      .theme-dark & {
+        color: variable.$color-wildSand;
+      }
     }
 
     p {
@@ -151,6 +161,9 @@ main {
       font-size: 0.8rem;
       font-style: italic;
       font-family: variable.$font-roboto;
+      .theme-dark & {
+        color: variable.$color-wildSand;
+      }
     }
 
     .theme-dark & {
@@ -262,6 +275,10 @@ main {
           border-left: none;
           background-color: variable.$color-anzac;
           font-size: 1.1rem;
+
+          .theme-dark & {
+            background-color: variable.$color-anzac;
+          }
         }
       }
     }
@@ -288,6 +305,11 @@ main {
         box-shadow: 2px 5px 10px 0px rgba(0, 0, 0, 0.5);
         height: 400px;
         transition: all ease 0.5s;
+
+        .theme-dark & {
+          box-shadow: 2px 5px 10px 0px rgba(140, 139, 139, 0.5);
+          background-color: variable.$color-wildSand;
+        }
 
         &:hover {
           transform: translate(0px, -3px);
@@ -336,6 +358,9 @@ main {
             margin-top: 5px;
             color: variable.$color-wildSand;
             font-family: variable.$font-roboto;
+            .theme-dark & {
+              background-color: variable.$color-piper;
+            }
           }
         }
       }

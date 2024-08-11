@@ -198,15 +198,14 @@ function displayListOfShow(showDatas, isSearchTrends, isTV) {
         <div class="imgframe">
           <img src="https://image.tmdb.org/t/p/w500/${data.poster_path}" alt="${fetchTitle}">
         </div>
-        <div class="card_textbox">
-          <div class="card_titletext">
+        <div class="card-textbox">
+          <div class="card-text">
             ${fetchTitle}
           </div>
-          <div class="card_overviewtext">
+          <div class="card-overview">
             ${data.overview}
           </div>
-          <p>${data.release_date}</p>
-          <button id="button-${showId}">More info</button>
+          <button id="button-${showId}">More Info</button>
         </div>`;
       showsList.append(showData);
 
@@ -235,7 +234,6 @@ function displayListOfShow(showDatas, isSearchTrends, isTV) {
       if (selectedData) {
         const overlay = document.createElement("div");
         overlay.classList.add("overlay");
-        body.append(overlay);
 
         const modal = document.createElement("div");
         modal.classList.add("modal");
@@ -243,22 +241,23 @@ function displayListOfShow(showDatas, isSearchTrends, isTV) {
         <div class="modal-imgframe">
             <img src="${selectedData.img}" alt="${selectedData.name}">
         </div>
-        <div class="modal-card_textbox">
+        <div class="modal-card-textbox">
             <div class="modal-card-text">
             ${selectedData.name}
             </div>
-            <div class="modal-overviewtext">
+            <div class="modal-card-overview ">
             ${selectedData.overview}
             </div>
-            <button id="close-modal">Close</button>
+            <button class="close-modal">Close</button>
         </div>
         `;
 
-        overlay.append(modal);
+        overlay.appendChild(modal);
+        document.body.append(overlay);
         body.style.overflow = "hidden";
 
         // close a modal
-        document.querySelector("#close-modal").addEventListener("click", () => {
+        document.querySelector(".close-modal").addEventListener("click", () => {
           overlay.remove();
           body.style.overflow = "";
         });

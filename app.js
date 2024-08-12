@@ -1,5 +1,3 @@
-const body = document.querySelector("body");
-const screenModeButton = document.querySelectorAll('input[type="radio"]');
 const genreList = document.querySelector("genre");
 const form = document.querySelector("form");
 const showType = document.querySelector(".showType");
@@ -72,7 +70,7 @@ form.addEventListener("submit", async function (e) {
     if (isGenreSelected) {
       displayData = filterShowData(result);
     } else {
-      resultone = result.results;
+      displayData = result.results;
     }
 
     showsList.innerHTML = "";
@@ -116,7 +114,7 @@ async function getTrendDatas() {
   }
 
   showsList.innerHTML = "";
-  displayListOfShow(displayData, true);
+  displayListOfShow(displayData, true, isTV);
 }
 
 // filter showing datas
@@ -164,17 +162,6 @@ async function showLanguageList() {
 
   setOptions(language, response, "english_name");
 }
-
-// toggle between light mode and dark mode
-screenModeButton.forEach((button) => {
-  button.addEventListener("click", () => {
-    if (button.classList.contains("dark-mode")) {
-      body.classList.add("theme-dark");
-    } else {
-      body.classList.remove("theme-dark");
-    }
-  });
-});
 
 // build HTML for setting options
 function setOptions(genres, responses, name) {
@@ -229,7 +216,7 @@ function displayListOfShow(showDatas, isSearchTrends, isTV) {
       // store the data related to the current modal when it is displayed
       const showObj = {
         id: showId,
-        name: data.original_name,
+        name: fetchTitle,
         overview: data.overview,
         release_date: data.release_date,
         img: `https://image.tmdb.org/t/p/w500/${data.poster_path}`,
@@ -270,7 +257,7 @@ function displayListOfShow(showDatas, isSearchTrends, isTV) {
         `;
 
         overlay.appendChild(modal);
-        document.body.append(overlay);
+        body.append(overlay);
         body.style.overflow = "hidden";
 
         // close a modal

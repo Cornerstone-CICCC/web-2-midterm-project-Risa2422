@@ -1,11 +1,15 @@
 // color
-$color-piper: #be4b23;
+$color-piper: #be4923;
 $color-wildSand: #f5f5f5;
 $color-blackPearl: #072236;
 $color-hotToddy: #a69304;
 $color-mustard: #ffd84c;
 $color-mondo: #4e3a31;
-$color-patina: #292828;
+$color-patina: #3c3a3a;
+$color-doveGray: #d4cfcf;
+$color-mojo: #c84b31;
+$color-anzac: #e5ae4e;
+$color-white: #ffffff;
 
 // font
 $font-raleway: "Raleway", sans-serif;
@@ -32,7 +36,7 @@ $screen-size-400: 400px;
 
 @mixin button-style {
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
   background-color: $color-patina;
   color: $color-wildSand;
 

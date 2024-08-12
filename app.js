@@ -177,12 +177,21 @@ function setOptions(genres, responses, name) {
 
 // diplay search result
 function displayListOfShow(showDatas, isSearchTrends, isTV) {
-  let showId = 1;
-  const showArr = [];
   let fetchTitle;
+  const showArr = [];
+  let showId = 1;
+
+  if (showDatas.length === 0) {
+    showsList.classList.add("no-data-wrapper");
+    const showData = document.createElement("div");
+    showData.classList.add("no-data");
+    showData.innerHTML = `<h2>Oops! No results found. Try another search term.</h2>
+    <div><img src="./image/Feeling-Lonely-1--Streamline-Brooklyn.png" alt="no data"></div>`;
+    showsList.append(showData);
+  }
 
   showDatas.forEach((data) => {
-    // ※avoid showing data that does not have a title or overview
+    // avoid showing data that does not have a title or overview
     if ((data.name || data.title) && data.poster_path && data.overview) {
       if (isSearchTrends || isTV) {
         fetchTitle = data.title;
@@ -194,6 +203,11 @@ function displayListOfShow(showDatas, isSearchTrends, isTV) {
         if (!fetchTitle) {
           fetchTitle = data.title;
         }
+      }
+
+      // remove the class used for styling when no data is found
+      if (showsList.classList.contains("no-data-wrapper")) {
+        showsList.classList.remove("no-data-wrapper");
       }
 
       const showData = document.createElement("div");

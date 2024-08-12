@@ -245,8 +245,35 @@ main {
           }
         }
       }
+
+      &.no-data-wrapper {
+        display: flex;
+        justify-content: center;
+
+        .no-data {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          h2 {
+            margin-bottom: 20px;
+            font-family: variable.$font-roboto;
+            color: variable.$color-blackPearl;
+
+            .theme-dark & {
+              color: variable.$color-wildSand;
+            }
+          }
+
+          div {
+            display: flex;
+            justify-content: center;
+          }
+        }
+      }
     }
   }
+}
 
   footer {
     display: flex;

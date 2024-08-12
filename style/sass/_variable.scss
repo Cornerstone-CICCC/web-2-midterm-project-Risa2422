@@ -10,6 +10,7 @@ $color-doveGray: #d4cfcf;
 $color-mojo: #c84b31;
 $color-anzac: #e5ae4e;
 $color-white: #ffffff;
+$color-psinkSwan: #c2b7b7;
 
 // font
 $font-raleway: "Raleway", sans-serif;
@@ -36,7 +37,7 @@ $screen-size-400: 400px;
 
 @mixin button-style {
   border: none;
-  border-radius: 15px;
+  border-radius: 5px;
   background-color: $color-patina;
   color: $color-wildSand;
 

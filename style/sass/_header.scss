@@ -24,8 +24,13 @@
 
   button {
     border: none;
+    box-shadow: none;
     margin-right: 10px;
+    padding: 0;
 
+    &:focus {
+      box-shadow: none;
+    }
     .navbar-toggler-icon {
       background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
     }
@@ -36,8 +41,12 @@
 
     .navbar-nav {
       display: flex;
-      align-items: center;
+      justify-content: start;
       gap: 18px;
+
+      @media screen and (max-width: variable.$screen-size-820) {
+        padding-bottom: 10px;
+      }
 
       .menu-link {
         display: block;
@@ -79,11 +88,12 @@
       .menu-list {
         display: flex;
         justify-content: center;
+        align-items: center;
+      }
 
-        &.screen-mode {
-          width: 100px;
-          gap: 8px;
-        }
+      .screen-mode {
+        width: 100px;
+        gap: 8px;
       }
 
       .screen-type {
@@ -108,7 +118,7 @@
           height: 16px;
           background-color: variable.$color-mustard;
           border-radius: 50%;
-          transition: all 0.3s linear;
+          transition: all 0.5s linear;
           pointer-events: none;
 
           .theme-dark & {
@@ -118,14 +128,14 @@
 
         input[type="radio"]:nth-child(2):checked {
           ~ .circle {
-            left: 26px;
+            left: 35px;
           }
         }
       }
 
       .light-wrapper,
       .dark-wrapper {
-        flex: 0 0 20px;
+        flex: 0 0 15px;
 
         img {
           width: 100%;

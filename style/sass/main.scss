@@ -12,15 +12,15 @@
 
 main {
   .wrapper {
-    padding: 110px 50px 30px;
+    padding: 90px 50px 30px;
     @media screen and (max-width: variable.$screen-size-575) {
-      padding: 30px 20px;
+      padding: 90px 20px 30px;
     }
 
     h1 {
       margin: 0;
       text-align: center;
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       font-family: variable.$font-anton;
       color: variable.$color-blackPearl;
       letter-spacing: 1.2px;
@@ -32,10 +32,12 @@ main {
 
     p {
       margin-top: 3px;
+      margin-bottom: 20px;
       text-align: center;
       font-size: 0.8rem;
       font-style: italic;
       font-family: variable.$font-roboto;
+
       .theme-dark & {
         color: variable.$color-wildSand;
       }
@@ -100,10 +102,15 @@ main {
 
           label {
             padding-left: 5px;
+            color: variable.$color-blackPearl;
 
             .theme-dark & {
               color: variable.$color-wildSand;
+              color: variable.$color-psinkSwan;
             }
+          }
+          &:last-of-type {
+            flex: 0 0 8%;
           }
 
           select {
@@ -112,7 +119,6 @@ main {
             border-left: none;
             height: 40px;
             padding: 10px;
-            font-size: 1rem;
             color: variable.$color-blackPearl;
             width: 100%;
 
@@ -129,8 +135,9 @@ main {
         .search-wrapper {
           label {
             padding-left: 10px;
+            color: variable.$color-blackPearl;
             .theme-dark & {
-              color: variable.$color-wildSand;
+              color: variable.$color-psinkSwan;
             }
           }
           .search {
@@ -160,6 +167,11 @@ main {
           border-left: none;
           background-color: variable.$color-anzac;
           font-size: 1.1rem;
+          transition: all 0.6s ease;
+
+          &:hover {
+            opacity: 0.8;
+          }
         }
       }
     }
@@ -236,9 +248,10 @@ main {
             height: 35px;
             transition: 0.4s;
             font-size: 0.9rem;
-            margin-top: 5px;
+            margin-top: 10px;
             color: variable.$color-wildSand;
             font-family: variable.$font-roboto;
+            margin-left: 6.5rem;
             .theme-dark & {
               background-color: variable.$color-piper;
             }
@@ -256,7 +269,7 @@ main {
           justify-content: center;
 
           h2 {
-            margin-bottom: 20px;
+            margin-bottom: 13px;
             font-family: variable.$font-roboto;
             color: variable.$color-blackPearl;
 
@@ -275,13 +288,21 @@ main {
   }
 }
 
-  footer {
-    display: flex;
-    justify-content: center;
-    padding-top: 30px;
+footer {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  background-color: variable.$color-wildSand;
+  font-size: 0.7rem;
 
-    p {
-      margin: 0;
+  .theme-dark & {
+    background-color: variable.$color-blackPearl;
+  }
+
+  p {
+    margin: 0;
+    .theme-dark & {
+      color: variable.$color-wildSand;
     }
   }
 }
@@ -316,14 +337,14 @@ main {
 
     .modal-imgframe {
       width: 100%;
-      height: 70%;
-      object-fit: cover;
+      height: 50%;
       background-color: variable.$color-wildSand;
 
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: top left;
       }
     }
 
@@ -331,6 +352,7 @@ main {
       display: flex;
       flex-direction: column;
       padding: 10px;
+      height: 100%;
       background-color: variable.$color-wildSand;
 
       .modal-card-text {
@@ -340,10 +362,12 @@ main {
       }
 
       .modal-card-overview {
-        font-family: variable.$font-roboto;
-        font-size: 0.8rem;
         overflow: hidden;
+        height: 95px;
+        overflow-y: auto;
         color: variable.$color-mondo;
+        font-family: variable.$font-roboto;
+        font-size: 0.9rem;
       }
 
       .close-modal {

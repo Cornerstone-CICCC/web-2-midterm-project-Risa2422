@@ -105,7 +105,8 @@ async function getTrendDatas() {
     typeOfShow = "tv";
   }
 
-  const trendDatas = await getTrends(typeOfShow, language.value);
+  const languageCode = language.value.substring(0, 2).toLowerCase();
+  const trendDatas = await getTrends(typeOfShow, languageCode);
 
   if (isGenreSelected) {
     displayData = filterShowData(trendDatas);
@@ -334,7 +335,7 @@ async function getAllShowBySearch(inputSearch, selectedLanguage) {
 async function getTrends(typeOfShow, selectedLanguage) {
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/trending/${typeOfShow}/day?${selectedLanguage}`,
+      `https://api.themoviedb.org/3/trending/${typeOfShow}/day?language=${selectedLanguage}`,
       commonOptions
     );
 

@@ -137,7 +137,7 @@
 
 main {
   .wrapper {
-    padding: 30px 50px;
+    padding: 110px 50px 30px;
     @media screen and (max-width: variable.$screen-size-575) {
       padding: 30px 20px;
     }
@@ -377,6 +377,10 @@ main {
     display: flex;
     justify-content: center;
     padding-top: 30px;
+
+    p {
+      margin: 0;
+    }
   }
 }
 

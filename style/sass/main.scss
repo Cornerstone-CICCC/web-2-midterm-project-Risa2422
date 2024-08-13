@@ -11,6 +11,11 @@
 }
 
 main {
+  background-color: variable.$color-wildSand;
+  .theme-dark & {
+    background-color: variable.$color-blackPearl;
+  }
+
   .wrapper {
     padding: 90px 50px 30px;
     @media screen and (max-width: variable.$screen-size-575) {
@@ -31,7 +36,7 @@ main {
     }
 
     p {
-      margin-top: 3px;
+      margin-top: 5px;
       margin-bottom: 20px;
       text-align: center;
       font-size: 0.8rem;
@@ -43,61 +48,46 @@ main {
       }
     }
 
-    .theme-dark & {
-      background-color: variable.$color-blackPearl;
-    }
-
-    background-color: variable.$color-wildSand;
-
     form {
       display: flex;
-      flex-direction: column;
       justify-content: center;
       margin: 0px 90px 50px;
       font-family: variable.$font-roboto;
       font-size: 0.8rem;
 
-      @media screen and (max-width: 881px) {
+      @media screen and (max-width: variable.$screen-size-881) {
+        flex-direction: column;
         margin: 0px 30px 50px;
       }
 
-      .input-mobile {
-        label {
-          display: none;
-          .theme-dark & {
-            color: variable.$color-wildSand;
-          }
+      .search-wrapper {
+        display: flex;
+        flex-direction: column;
 
-          @media screen and (max-width: 881px) {
-            display: flex;
-            padding-left: 5px;
+        label {
+          padding-left: 7px;
+          .theme-dark & {
+            color: variable.$color-psinkSwan;
           }
         }
 
-        .search-moobile {
-          margin: 0 0 10px;
-          padding-left: 10px;
-          display: none;
-          border: 1px solid variable.$color-doveGray;
-          border-radius: 20px;
-          height: 30px;
-          width: 100%;
+        input {
           height: 40px;
+          border-radius: 20px 0 0 20px;
+          border: 1px solid variable.$color-doveGray;
+          padding-left: 10px;
 
-          @media screen and (max-width: 881px) {
-            display: block;
+          @media screen and (max-width: variable.$screen-size-881) {
+            border-radius: 20px;
+            margin-bottom: 10px;
           }
         }
       }
 
-      .form-wrapper {
+      .option-wrapper {
         display: flex;
 
         .select-wrapper {
-          flex: 1 1 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: end;
           color: variable.$color-blackPearl;
 
           label {
@@ -105,12 +95,12 @@ main {
             color: variable.$color-blackPearl;
 
             .theme-dark & {
-              color: variable.$color-wildSand;
               color: variable.$color-psinkSwan;
             }
           }
+
           &:last-of-type {
-            flex: 0 0 8%;
+            flex: 0 0 15%;
           }
 
           select {
@@ -124,53 +114,50 @@ main {
 
             @media screen and (max-width: variable.$screen-size-881) {
               &.showType {
-                border-top-left-radius: 20px;
-                border-bottom-left-radius: 20px;
+                border-radius: 20px 0 0 20px;
                 border: 1px solid variable.$color-doveGray;
               }
             }
           }
-        }
 
-        .search-wrapper {
-          label {
-            padding-left: 10px;
-            color: variable.$color-blackPearl;
-            .theme-dark & {
-              color: variable.$color-psinkSwan;
+          .search-wrapper {
+            label {
+              padding-left: 10px;
+              color: variable.$color-blackPearl;
+
+              .theme-dark & {
+                color: variable.$color-psinkSwan;
+              }
+            }
+            .search {
+              flex: 1 1 100%;
+              border: none;
+              height: 40px;
+              padding: 10px;
+              border-radius: 20px 0 0 20px;
+              border: 1px solid variable.$color-doveGray;
+              color: variable.$color-blackPearl;
+            }
+
+            @media screen and (max-width: variable.$screen-size-881) {
+              display: none;
             }
           }
-          .search {
-            flex: 1 1 100%;
-            border: none;
+
+          .search-button {
+            margin-top: 19px;
+            width: 100%;
             height: 40px;
-            padding: 10px;
-            border-top-left-radius: 20px;
-            border-bottom-left-radius: 20px;
+            border-radius: 0 20px 20px 0;
             border: 1px solid variable.$color-doveGray;
-            color: variable.$color-blackPearl;
-          }
+            border-left: none;
+            background-color: variable.$color-anzac;
+            font-size: 1.1rem;
+            transition: all 0.6s ease;
 
-          @media screen and (max-width: variable.$screen-size-881) {
-            display: none;
-          }
-        }
-
-        .search-button {
-          max-width: 100%;
-          width: auto;
-          border: none;
-          height: 40px;
-          border-top-right-radius: 20px;
-          border-bottom-right-radius: 20px;
-          border: 1px solid variable.$color-doveGray;
-          border-left: none;
-          background-color: variable.$color-anzac;
-          font-size: 1.1rem;
-          transition: all 0.6s ease;
-
-          &:hover {
-            opacity: 0.8;
+            &:hover {
+              opacity: 0.8;
+            }
           }
         }
       }
@@ -179,7 +166,7 @@ main {
     .shows-list {
       display: grid;
       grid-template-columns: repeat(4, 25%);
-      gap: 20px;
+      gap: 15px;
 
       @media screen and (max-width: variable.$screen-size-1014) {
         grid-template-columns: repeat(3, 25%);
@@ -196,7 +183,7 @@ main {
       .show-list {
         border-radius: 15px;
         box-shadow: 2px 5px 10px 0px rgba(0, 0, 0, 0.5);
-        height: 385px;
+        height: 400px;
         transition: all ease 0.5s;
 
         .theme-dark & {
@@ -216,8 +203,7 @@ main {
             object-position: top left;
             width: 100%;
             height: 100%;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+            border-radius: 10px 10px 0 0;
           }
         }
 

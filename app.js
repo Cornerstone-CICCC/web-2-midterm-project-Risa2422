@@ -4,7 +4,6 @@ const showType = document.querySelector(".showType");
 const genre = document.querySelector(".genre");
 const language = document.querySelector(".language");
 const search = document.querySelector(".search");
-const age = document.querySelector(".age");
 const showsList = document.querySelector(".shows-list");
 let inputSearch;
 let selectedGenre;
@@ -12,7 +11,9 @@ let selectedLanguage;
 let displayData;
 let selectedGenreId;
 let isGenreSelected;
+let isShowTypeSelected;
 let genreName;
+let selectedShowType;
 
 const AllGenreDatas = [];
 const showArr = [];
@@ -40,22 +41,29 @@ search.addEventListener("input", (event) => {
 });
 
 genre.addEventListener("click", (e) => {
-  showGenreList();
+  getGenreList();
 });
 
 language.addEventListener("click", (e) => {
-  showLanguageList();
+  getLanguageList();
 });
 
 form.addEventListener("submit", async function (e) {
   e.preventDefault();
 
-  // get the selected genre name and the condition
+  // get the selected genre name and condition
   genreName = genre.value;
-  if (genre.value === "---") {
+  if (genreName === "---") {
     isGenreSelected = false;
   } else {
     isGenreSelected = true;
+  }
+
+  selectedShowType = showType.value;
+  if (selectedShowType === "all") {
+    isShowTypeSelected = false;
+  } else {
+    isShowTypeSelected = true;
   }
 
   // search the name of TV and movies
@@ -65,17 +73,17 @@ form.addEventListener("submit", async function (e) {
     // get data based on the search input
     const result = await getAllShowBySearch(search.value, selectedLanguage);
 
+    let displayData;
     if (isGenreSelected) {
-      displayData = filterShowData(result);
+      displayData = filterDisplayData(result);
     } else {
       displayData = result.results;
     }
 
-    showsList.innerHTML = "";
     displayListOfShow(displayData, false, false);
   } else {
     // get the trends
-    getTrendDatas();
+    getTrendData();
   }
 
   form.reset();
@@ -84,19 +92,19 @@ form.addEventListener("submit", async function (e) {
 });
 
 /* Functions *****************************************/
-function load() {
-  showGenreList();
-  showLanguageList();
-  getTrendDatas();
+function init() {
+  getGenreList();
+  getLanguageList();
+  getTrendData();
 }
 
-async function getTrendDatas() {
+async function getTrendData() {
   let typeOfShow;
   let isTV = false;
 
   if (showType.value === "all") {
     typeOfShow = "all";
-  } else if (showType.value === "movies") {
+  } else if (showType.value === "movie") {
     typeOfShow = "movie";
     isTV = true;
   } else {
@@ -106,18 +114,36 @@ async function getTrendDatas() {
   const languageCode = language.value.substring(0, 2).toLowerCase();
   const trendDatas = await getTrends(typeOfShow, languageCode);
 
-  if (isGenreSelected) {
-    displayData = filterShowData(trendDatas);
-  } else {
+  if (!isGenreSelected && !isShowTypeSelected) {
     displayData = trendDatas.results;
+  } else {
+    displayData = filterDisplayData(
+      trendDatas,
+      isGenreSelected,
+      isShowTypeSelected
+    );
   }
 
-  showsList.innerHTML = "";
   displayListOfShow(displayData, true, isTV);
 }
 
-// filter showing datas
-function filterShowData(responsData) {
+// filter showing data
+function filterDisplayData(response, isGenreSelected, isShowTypeSelected) {
+  let filteredData = [];
+
+  if (isShowTypeSelected) {
+    filteredData = getDataByShowType(response);
+    if (isGenreSelected) {
+      filteredData = getDataByGenre(filteredData);
+    }
+  } else {
+    filteredData = getDataByGenre(response.results);
+  }
+
+  return filteredData;
+}
+
+function getDataByGenre(response) {
   // get a selected genreId
   AllGenreDatas.forEach((data) => {
     if (data.name === genreName) {
@@ -125,7 +151,7 @@ function filterShowData(responsData) {
     }
   });
 
-  return responsData.results.filter((data) => {
+  return response.filter((data) => {
     if (data.genre_ids && Array.isArray(data.genre_ids)) {
       return data.genre_ids.some((genreId) => genreId === selectedGenreId);
     } else {
@@ -134,19 +160,31 @@ function filterShowData(responsData) {
   });
 }
 
+function getDataByShowType(response) {
+  let otherArr = [];
+
+  response.results.forEach((data) => {
+    if (data.media_type === selectedShowType) {
+      otherArr.push(data);
+    }
+  });
+
+  return otherArr;
+}
+
 // show a genre list
-async function showGenreList() {
+async function getGenreList() {
   let response;
   try {
     if (showType.value === "all") {
       // just for now
-      response = await getGenreList("movie");
+      response = await getGenreData("movie");
     } else if (showType.value === "movie") {
       // get a movie list
-      response = await getGenreList("movie");
+      response = await getGenreData("movie");
     } else {
       // get a TV list
-      response = await getGenreList("tv");
+      response = await getGenreData("tv");
     }
 
     setOptions(genre, response.genres, "name");
@@ -156,9 +194,8 @@ async function showGenreList() {
 }
 
 // show a language list
-async function showLanguageList() {
-  let response = await getLanguageList();
-
+async function getLanguageList() {
+  let response = await getLanguageData();
   setOptions(language, response, "english_name");
 }
 
@@ -176,21 +213,26 @@ function setOptions(genres, responses, name) {
 
 // diplay search result
 function displayListOfShow(showDatas, isSearchTrends, isTV) {
-  let fetchTitle;
   const showArr = [];
+  let fetchTitle;
   let showId = 1;
 
+  showsList.innerHTML = "";
+
+  // no data found
   if (showDatas.length === 0) {
     showsList.classList.add("no-data-wrapper");
     const showData = document.createElement("div");
     showData.classList.add("no-data");
-    showData.innerHTML = `<h2>Oops! No results found. Try another search term.</h2>
+    showData.innerHTML = `<h2>Oops! No results found.</h2>
     <div><img src="./image/Feeling-Lonely-1--Streamline-Brooklyn.png" alt="no data"></div>`;
     showsList.append(showData);
+
+    return;
   }
 
   showDatas.forEach((data) => {
-    // avoid showing data that does not have a title or overview
+    // avoid showing data that does not have a title, image or overview
     if ((data.name || data.title) && data.poster_path && data.overview) {
       if (isSearchTrends || isTV) {
         fetchTitle = data.title;
@@ -222,18 +264,19 @@ function displayListOfShow(showDatas, isSearchTrends, isTV) {
           <div class="card-overview">
             ${data.overview}
           </div>
-          <button id="button-${showId}">More Info</button>
+          <button id="button-${showId}">More info</button>
         </div>`;
       showsList.append(showData);
 
-      // store the data related to the current modal when it is displayed
+      // store the data related to the current modal when it's displayed
       const showObj = {
         id: showId,
         name: fetchTitle,
         overview: data.overview,
         release_date: data.release_date,
-        img: `https://image.tmdb.org/t/p/w500/${data.poster_path}`,
+        img: `https://image.tmdb.org/t/p/w500/${data.backdrop_path}`,
       };
+
       showArr.push(showObj);
       showId++;
     }
@@ -243,7 +286,6 @@ function displayListOfShow(showDatas, isSearchTrends, isTV) {
   document.querySelectorAll(".show-list button").forEach((button) => {
     button.addEventListener("click", (e) => {
       const buttonId = e.target.id.replace("button-", "");
-
       const selectedData = showArr.find(
         (data) => data.id.toString() === buttonId
       );
@@ -285,7 +327,7 @@ function displayListOfShow(showDatas, isSearchTrends, isTV) {
 
 /* API *****************************************/
 // get a genre list
-async function getGenreList(showType) {
+async function getGenreData(showType) {
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/genre/${showType}/list?language=en`,
@@ -300,7 +342,7 @@ async function getGenreList(showType) {
 }
 
 // get a language list
-async function getLanguageList() {
+async function getLanguageData() {
   try {
     const response = await fetch(
       "https://api.themoviedb.org/3/configuration/languages",
@@ -344,4 +386,4 @@ async function getTrends(typeOfShow, selectedLanguage) {
   }
 }
 
-load();
+init();

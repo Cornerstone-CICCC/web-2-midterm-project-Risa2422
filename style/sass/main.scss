@@ -178,25 +178,25 @@ main {
 
     .shows-list {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, 25%);
       gap: 20px;
 
       @media screen and (max-width: variable.$screen-size-1014) {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 25%);
       }
 
       @media screen and (max-width: variable.$screen-size-820) {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 25%);
       }
 
-      @media screen and (max-width: variable.$screen-size-400) {
-        grid-template-columns: repeat(1, 1fr);
+      @media screen and (max-width: variable.$screen-size-450) {
+        grid-template-columns: repeat(1, 25%);
       }
 
       .show-list {
         border-radius: 15px;
         box-shadow: 2px 5px 10px 0px rgba(0, 0, 0, 0.5);
-        height: 400px;
+        height: 385px;
         transition: all ease 0.5s;
 
         .theme-dark & {
@@ -231,7 +231,10 @@ main {
             font-family: variable.$font-raleway;
             font-size: 1.1rem;
             font-weight: 650;
-            height: 40px;
+            height: 30px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
 
           .card-overview {

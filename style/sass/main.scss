@@ -183,7 +183,7 @@ main {
       .show-list {
         border-radius: 15px;
         box-shadow: 2px 5px 10px 0px rgba(0, 0, 0, 0.5);
-        height: 400px;
+        height: 380px;
         transition: all ease 0.5s;
 
         .theme-dark & {
@@ -237,7 +237,7 @@ main {
             height: 35px;
             transition: 0.4s;
             font-size: 0.9rem;
-            margin-top: 10px;
+            margin-top: 8px;
             color: variable.$color-wildSand;
             font-family: variable.$font-roboto;
             margin-left: 6.5rem;
@@ -341,7 +341,6 @@ footer {
       display: flex;
       flex-direction: column;
       padding: 10px;
-      height: 100%;
       background-color: variable.$color-wildSand;
 
       .modal-card-text {

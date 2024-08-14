@@ -26,11 +26,22 @@ const commonOptions = {
   },
 };
 
-genre.addEventListener("click", (e) => {
+genre.addEventListener("click", () => {
   getGenreList();
 });
 
-language.addEventListener("click", (e) => {
+showType.addEventListener("change", (e) => {
+  if (e.target.value === "all") {
+    // memo: Since there is no API available to retrieve genres for movies and TV shows, show type(all) will be disabled.
+    genre.style.backgroundColor = "#D1D1D1";
+    genre.disabled = true;
+  } else {
+    genre.style.backgroundColor = "white";
+    genre.disabled = false;
+  }
+});
+
+language.addEventListener("click", () => {
   getLanguageList();
 });
 
@@ -67,8 +78,8 @@ form.addEventListener("submit", async function (e) {
   }
 
   form.reset();
-  showType.style.backgroundColor = "white";
-  showType.disabled = false;
+  genre.style.backgroundColor = "#D1D1D1";
+  genre.disabled = true;
 });
 
 /* Functions *****************************************/
@@ -76,6 +87,10 @@ function init() {
   getGenreList();
   getLanguageList();
   getTrendData();
+
+  // genre is disabled by default
+  genre.style.backgroundColor = "#D1D1D1";
+  genre.disabled = true;
 }
 
 function getShowDataByCondition(response) {
@@ -94,9 +109,9 @@ async function getTrendData() {
     typeOfShow = "all";
   } else if (showType.value === "movie") {
     typeOfShow = "movie";
-    isTV = true;
   } else {
     typeOfShow = "tv";
+    isTV = true;
   }
 
   const languageCode = language.value.substring(0, 2).toLowerCase();

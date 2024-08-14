@@ -57,18 +57,8 @@ form.addEventListener("submit", async function (e) {
     let selectedLanguage = language.value.substring(0, 2).toLowerCase();
 
     // get data based on the search input
-    const result = await getAllShowBySearch(search.value, selectedLanguage);
-
-    let displayData;
-    if (!isGenreSelected && !isShowTypeSelected) {
-      displayData = result.results;
-    } else {
-      displayData = filterDisplayData(
-        result,
-        isGenreSelected,
-        isShowTypeSelected
-      );
-    }
+    const result = await getAllShowDataBySearch(search.value, selectedLanguage);
+    displayData = getShowDataByCondition(result);
 
     displayListOfShow(displayData, false, false);
   } else {
@@ -88,6 +78,14 @@ function init() {
   getTrendData();
 }
 
+function getShowDataByCondition(response) {
+  if (!isGenreSelected && !isShowTypeSelected) {
+    return response.results;
+  } else {
+    return filterDisplayData(response, isShowTypeSelected, isGenreSelected);
+  }
+}
+
 async function getTrendData() {
   let typeOfShow;
   let isTV = false;
@@ -103,18 +101,9 @@ async function getTrendData() {
 
   const languageCode = language.value.substring(0, 2).toLowerCase();
   const trendDatas = await getTrends(typeOfShow, languageCode);
+  displayData = getShowDataByCondition(trendDatas);
 
-  if (!isGenreSelected && !isShowTypeSelected) {
-    displayData = trendDatas.results;
-  } else {
-    displayData = filterDisplayData(
-      trendDatas,
-      isGenreSelected,
-      isShowTypeSelected
-    );
-  }
-
-  displayListOfShow(displayData, true, isTV);
+  displayShowlist(displayData, true, isTV);
 }
 
 // filter showing data

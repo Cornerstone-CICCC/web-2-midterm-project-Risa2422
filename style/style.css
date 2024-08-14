@@ -412,6 +412,7 @@ main .wrapper .shows-list.no-data-wrapper .no-data {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 main .wrapper .shows-list.no-data-wrapper .no-data h2 {
   margin-bottom: 13px;

@@ -3,17 +3,20 @@
 .description {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  padding: 140px 100px 50px;
+  justify-content: space-between;
+  padding: 10px 30px 0;
+  height: calc(100vh - 50px);
   background-color: variable.$color-wildSand;
 
   @media screen and (max-width: variable.$screen-size-820) {
     flex-direction: column;
-    padding: 0 50px;
+    justify-content: center;
+    align-items: center;
+    padding: 55px 50px 0;
   }
 
   .site-logo {
-    flex: 0 0 400px;
+    flex: 0 0 500px;
 
     @media screen and (max-width: variable.$screen-size-820) {
       flex: 0 0 300px;
@@ -26,6 +29,7 @@
   }
 
   .detail {
+    flex: 1;
     h1 {
       font-family: variable.$font-anton;
       color: variable.$color-blackPearl;
@@ -39,11 +43,10 @@
 
     @media screen and (max-width: variable.$screen-size-820) {
       flex-direction: column;
-      align-items: center;
     }
   }
-}
 
-footer {
-  padding: 0;
+  footer {
+    padding: 0;
+  }
 }

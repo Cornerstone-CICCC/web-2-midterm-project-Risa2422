@@ -337,7 +337,7 @@ async function getGenreData(showType) {
     const data = await response.json();
     return data;
   } catch (e) {
-    alert(e);
+    console.log(e);
   }
 }
 
@@ -352,7 +352,7 @@ async function getLanguageData() {
     const data = await response.json();
     return data;
   } catch (e) {
-    alert(e);
+    console.log(e);
   }
 }
 
@@ -367,7 +367,7 @@ async function getAllShowBySearch(inputSearch, selectedLanguage) {
     const data = await response.json();
     return data;
   } catch (e) {
-    alert(e);
+    console.log(e);
   }
 }
 
@@ -382,7 +382,7 @@ async function getTrends(typeOfShow, selectedLanguage) {
     const data = await response.json();
     return data;
   } catch (e) {
-    alert(e);
+    console.log(e);
   }
 }
 

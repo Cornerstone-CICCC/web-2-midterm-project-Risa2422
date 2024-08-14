@@ -76,10 +76,6 @@ form.addEventListener("submit", async function (e) {
     // for getting the trends
     getTrendData();
   }
-
-  form.reset();
-  genre.style.backgroundColor = "#D1D1D1";
-  genre.disabled = true;
 });
 
 /* Functions *****************************************/

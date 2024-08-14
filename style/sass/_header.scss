@@ -5,11 +5,13 @@
   justify-content: space-around;
   padding: 0 40px;
   background-color: variable.$color-piper;
-  border-bottom: 1.1px solid variable.$color-blackPearl;
+  border-bottom: 0.7px solid variable.$color-blackPearl;
+  box-shadow: 0px 2px 4px rgb(192, 174, 174);
 
   .theme-dark & {
     background-color: variable.$color-blackPearl;
-    border-bottom: 1.1px solid variable.$color-hotToddy;
+    border-bottom: 0.7px solid variable.$color-hotToddy;
+    box-shadow: 0px 2px 4px rgb(106, 105, 105);
   }
 
   .navbar-brand {

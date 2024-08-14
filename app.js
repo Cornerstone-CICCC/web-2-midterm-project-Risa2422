@@ -63,7 +63,7 @@ form.addEventListener("submit", async function (e) {
     isShowTypeSelected = true;
   }
 
-  // search the name of TV and movies
+  // for searching the name of TV and movies
   if (search.value !== "") {
     let selectedLanguage = language.value.substring(0, 2).toLowerCase();
 
@@ -71,9 +71,9 @@ form.addEventListener("submit", async function (e) {
     const result = await getAllShowDataBySearch(search.value, selectedLanguage);
     displayData = getShowDataByCondition(result);
 
-    displayListOfShow(displayData, false, false);
+    displayShowlist(displayData, false, false);
   } else {
-    // get the trends
+    // for getting the trends
     getTrendData();
   }
 
@@ -94,7 +94,7 @@ function init() {
 }
 
 function getShowDataByCondition(response) {
-  if (!isGenreSelected && !isShowTypeSelected) {
+  if (!isShowTypeSelected) {
     return response.results;
   } else {
     return filterDisplayData(response, isShowTypeSelected, isGenreSelected);
@@ -122,7 +122,7 @@ async function getTrendData() {
 }
 
 // filter showing data
-function filterDisplayData(response, isGenreSelected, isShowTypeSelected) {
+function filterDisplayData(response, isShowTypeSelected, isGenreSelected) {
   let filteredData = [];
 
   if (isShowTypeSelected) {
@@ -130,8 +130,6 @@ function filterDisplayData(response, isGenreSelected, isShowTypeSelected) {
     if (isGenreSelected) {
       filteredData = getDataByGenre(filteredData);
     }
-  } else {
-    filteredData = getDataByGenre(response.results);
   }
 
   return filteredData;
@@ -155,42 +153,15 @@ function getDataByGenre(response) {
 }
 
 function getDataByShowType(response) {
-  let otherArr = [];
+  const newShowlist = [];
 
   response.results.forEach((data) => {
     if (data.media_type === selectedShowType) {
-      otherArr.push(data);
+      newShowlist.push(data);
     }
   });
 
-  return otherArr;
-}
-
-// show a genre list
-async function getGenreList() {
-  let response;
-  try {
-    if (showType.value === "all") {
-      // just for now
-      response = await getGenreData("movie");
-    } else if (showType.value === "movie") {
-      // get a movie list
-      response = await getGenreData("movie");
-    } else {
-      // get a TV list
-      response = await getGenreData("tv");
-    }
-
-    setOptions(genre, response.genres, "name");
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-// show a language list
-async function getLanguageList() {
-  let response = await getLanguageData();
-  setOptions(language, response, "english_name");
+  return newShowlist;
 }
 
 // build HTML for setting options
@@ -205,8 +176,8 @@ function setOptions(genres, responses, name) {
   });
 }
 
-// diplay search result
-function displayListOfShow(showDatas, isSearchTrends, isTV) {
+// dis  play search result
+function displayShowlist(showDatas, isSearchTrends, isTV) {
   const showArr = [];
   let fetchTitle;
   let showId = 1;
@@ -262,7 +233,7 @@ function displayListOfShow(showDatas, isSearchTrends, isTV) {
         </div>`;
       showsList.append(showData);
 
-      // store the data related to the current modal when it's displayed
+      // store each show's data for modals
       const showObj = {
         id: showId,
         name: fetchTitle,
@@ -321,6 +292,33 @@ function displayListOfShow(showDatas, isSearchTrends, isTV) {
 
 /* API *****************************************/
 // get a genre list
+async function getGenreList() {
+  let response;
+  try {
+    if (showType.value === "all") {
+      // just for now
+      response = await getGenreData("movie");
+    } else if (showType.value === "movie") {
+      // get a movie list
+      response = await getGenreData("movie");
+    } else {
+      // get a TV list
+      response = await getGenreData("tv");
+    }
+
+    setOptions(genre, response.genres, "name");
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+// get a language list
+async function getLanguageList() {
+  let response = await getLanguageData();
+  setOptions(language, response, "english_name");
+}
+
+// get a genre list
 async function getGenreData(showType) {
   try {
     const response = await fetch(
@@ -351,7 +349,7 @@ async function getLanguageData() {
 }
 
 // get the show info
-async function getAllShowBySearch(inputSearch, selectedLanguage) {
+async function getAllShowDataBySearch(inputSearch, selectedLanguage) {
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/search/multi?query=${inputSearch}&include_adult=false&language=${selectedLanguage}&page=1`,

@@ -18,11 +18,9 @@ $font-roboto: "Roboto", sans-serif;
 $font-anton: "Anton", sans-serif;
 
 // screen size
-$screen-size-575: 575px;
-$screen-size-1014: 1014px;
+
 $screen-size-820: 820px;
 $screen-size-881: 881px;
-$screen-size-400: 400px;
 
 @mixin title-font-style {
   font-family: $font-raleway;

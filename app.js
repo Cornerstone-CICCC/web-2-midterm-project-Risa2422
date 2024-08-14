@@ -26,20 +26,6 @@ const commonOptions = {
   },
 };
 
-/* Event *****************************************/
-// avoid selecting a type when searching for titles.
-search.addEventListener("input", (event) => {
-  const inputValue = event.target.value;
-
-  if (inputValue !== "") {
-    showType.style.backgroundColor = "#EBEBEB";
-    showType.disabled = true;
-  } else {
-    showType.style.backgroundColor = "white";
-    showType.disabled = false;
-  }
-});
-
 genre.addEventListener("click", (e) => {
   getGenreList();
 });
@@ -74,10 +60,14 @@ form.addEventListener("submit", async function (e) {
     const result = await getAllShowBySearch(search.value, selectedLanguage);
 
     let displayData;
-    if (isGenreSelected) {
-      displayData = filterDisplayData(result);
-    } else {
+    if (!isGenreSelected && !isShowTypeSelected) {
       displayData = result.results;
+    } else {
+      displayData = filterDisplayData(
+        result,
+        isGenreSelected,
+        isShowTypeSelected
+      );
     }
 
     displayListOfShow(displayData, false, false);
@@ -189,7 +179,7 @@ async function getGenreList() {
 
     setOptions(genre, response.genres, "name");
   } catch (e) {
-    alert(e);
+    console.log(e);
   }
 }
 
